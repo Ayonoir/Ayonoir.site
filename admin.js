@@ -100,7 +100,7 @@ function viewLogin() {
     btn.disabled = true;
     const { error } = await sb.auth.signInWithPassword({ email: document.getElementById('em').value.trim(), password: document.getElementById('pw').value });
     btn.disabled = false;
-    if (error) document.getElementById('lerr').textContent = 'Those details are not right.';
+    if (error) document.getElementById('lerr').textContent = (error.message || 'Sign-in failed') + (error.status ? ' (' + error.status + ')' : '');
   });
 }
 function viewNotAdmin() {
