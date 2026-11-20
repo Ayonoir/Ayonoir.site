@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#161616">
+<title>Private gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-title="Private gallery">
+
+<!-- 1. No link opened -->
+<section id="v-landing" class="center-screen" hidden>
+  <div class="wrap">
+    <div class="topline"><span class="brand" data-brand></span><span class="muted" style="font-size:12px;letter-spacing:.22em;text-transform:uppercase" data-tagline></span></div>
+  </div>
+  <div class="wrap" style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:24px;max-width:640px">
+    <div class="kicker">Welcome</div>
+    <h1 style="font-size:clamp(44px,9vw,76px)">Your gallery is private.</h1>
+    <p id="landing-msg" class="muted" style="font-size:16px;line-height:1.7;margin:0">Please open the private link your photographer sent you, then enter your six-digit PIN.</p>
+  </div>
+</section>
+
+<!-- 2. PIN entry -->
+<section id="v-pin" class="center-screen" hidden>
+  <div class="wrap">
+    <div class="topline"><span class="brand" data-brand></span><span class="muted" style="font-size:12px;letter-spacing:.22em;text-transform:uppercase" data-tagline></span></div>
+  </div>
+  <div class="pin-split">
+    <div class="wrap" style="flex:1 1 460px;min-width:0;display:flex">
+      <div class="pin-left">
+        <div class="kicker">Welcome</div>
+        <h1>Your story,<br>privately held.</h1>
+        <p>Enter the six-digit PIN from your photographer to view, favourite and download your photographs.</p>
+        <form id="pin-form" class="pin-form" autocomplete="off">
+          <label class="label" for="pin0">Gallery PIN</label>
+          <div id="pin-boxes" class="pin-boxes">
+            <input id="pin0" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="one-time-code" aria-label="PIN digit 1">
+            <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="PIN digit 2">
+            <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="PIN digit 3">
+            <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="PIN digit 4">
+            <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="PIN digit 5">
+            <input inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="PIN digit 6">
+          </div>
+          <p id="pin-error" class="err" role="alert"></p>
+          <button id="pin-submit" class="btn primary" type="submit" style="min-height:56px">Enter gallery</button>
+        </form>
+        <div id="expired-box" hidden>
+          <h2 style="font-size:40px;margin-bottom:12px">This gallery has expired.</h2>
+          <p id="expired-msg">Please contact your photographer if you would like it reopened.</p>
+        </div>
+      </div>
+    </div>
+    <div class="pin-art" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- 3. Gallery -->
+<section id="v-gallery" hidden>
+  <div class="wrap">
+    <div class="topline" style="padding-bottom:0">
+      <span class="brand" data-brand></span>
+      <button id="btn-exit" class="btn small">Exit gallery</button>
+    </div>
+    <header class="g-hero">
+      <div id="g-kicker" class="kicker"></div>
+      <h1 id="g-title"></h1>
+      <div id="g-client" style="font-family:var(--serif);font-size:26px"></div>
+      <div id="g-expiry" class="muted" style="font-size:14px"></div>
+    </header>
+    <div class="toolbar">
+      <div class="tabs">
+        <button class="tab on" data-filter="all" id="tab-all">All photos</button>
+        <button class="tab" data-filter="favs" id="tab-favs">Favourites · 0</button>
+      </div>
+      <div class="actions">
+        <button id="btn-dl-favs" class="btn small" hidden>Download favourites</button>
+        <button id="btn-dl-all" class="btn small primary" hidden>Download all</button>
+      </div>
+    </div>
+    <div id="dl-progress" class="progress-note" aria-live="polite"></div>
+    <div id="grid" class="masonry"></div>
+    <footer class="foot">© <span data-year></span> <span data-brand></span></footer>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <div class="lb-top">
+    <span id="lb-count"></span>
+    <button id="lb-close" class="icon-btn" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+  </div>
+  <div id="lb-stage" class="lb-stage">
+    <button id="lb-prev" class="icon-btn lb-nav prev" aria-label="Previous photo"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <img id="lb-img" alt="">
+    <button id="lb-next" class="icon-btn lb-nav next" aria-label="Next photo"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+  <div class="lb-bar">
+    <button id="lb-fav" class="icon-btn" aria-label="Favourite" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.5-9.3C1.2 8.4 3 5 6.4 5c2 0 3.6 1.1 5.600 3.200C14 6.100 15.600 5 17.600 5 21 5 22.800 8.400 21.500 11.700 19.500 16.400 12 21 12 21z"/></svg></button>
+    <button id="lb-dl" class="icon-btn" aria-label="Download photo"><svg viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg></button>
+  </div>
+</div>
+
+<div id="toast" role="status"></div>
+<script type="module" src="client.js"></script>
+</body>
+</html>
