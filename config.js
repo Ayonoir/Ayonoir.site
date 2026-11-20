@@ -15,8 +15,8 @@ export const SUPABASE_ANON_KEY = "sb_publishable_F-m1QK8TvmYuwG9ibx9ILw_sGHiuiDN
 
 // Upload behaviour (keeps your free storage going further)
 export const DEFAULTS = {
-  expiryDays: 60,        // New galleries expire this many days from today
-  maxImageEdge: 4096,    // Longest side of the photo clients view/download, in pixels
-  jpegQuality: 0.92,     // 0 to 1
+  expiryDays: 30,        // New galleries expire this many days from today
+  maxImageEdge: 6000,    // Longest side of the photo clients view/download, in pixels
+  jpegQuality: 0.99,     // 0 to 1
   thumbEdge: 900,        // Longest side of grid thumbnails
 };
