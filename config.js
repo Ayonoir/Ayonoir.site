@@ -10,7 +10,7 @@ export const BRAND = {
 };
 
 // Paste these two values from Supabase (Project Settings -> API)
-export const SUPABASE_URL = "https://pxdhbqhazpapmaaokhi.supabase.co";
+export const SUPABASE_URL = "https://pxdhbqhazpapmaaaokhi.supabase.co";
 export const SUPABASE_ANON_KEY = "sb_publishable_F-m1QK8TvmYuwG9ibx9ILw_sGHiuiDN";
 
 // Upload behaviour (keeps your free storage going further)
